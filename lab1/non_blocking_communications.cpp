@@ -22,13 +22,19 @@ int main(int argc, char **argv) {
         }
         MPI_Isend(data, array_size, MPI_DOUBLE, 1, 0, MPI_COMM_WORLD, &request);
         std::cout << "Process 0 sent data array" << std::endl;
+        // Ensure non-blocking operations complete
+        MPI_Wait(&request, MPI_STATUS_IGNORE);
     } else if (myrank == 1) {
         // Process 1 receives data
         MPI_Irecv(data, array_size, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &request);
+        // Ensure non-blocking operations complete
+        MPI_Wait(&request, MPI_STATUS_IGNORE);
+        for(const double &d : data) {
+            std::cout << d << " ";
+        }
+        std::cout << std::endl;
         std::cout << "Process 1 received data array" << std::endl;
     }
-    // Ensure non-blocking operations complete
-    MPI_Wait(&request, MPI_STATUS_IGNORE);
 
     MPI_Finalize();
     return 0;

@@ -24,6 +24,10 @@ int main(int argc, char **argv) {
     } else if (myrank == 1) {
         // Process 1 receives data
         MPI_Recv(data, array_size, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        for(const double &d : data) {
+            std::cout << d << " ";
+        }
+        std::cout << std::endl;
         std::cout << "Process 1 received data array" << std::endl;
     }
     MPI_Finalize();
