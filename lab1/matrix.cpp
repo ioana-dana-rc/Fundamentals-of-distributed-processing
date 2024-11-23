@@ -5,11 +5,13 @@
 #include <mpi.h>
 
 void generate_matrix(const int n, std::vector<std::vector<int>>& a) {
+    std::cout<<"Generated matrix:"<<std::endl;
     for( int i = 0; i < n; i++) {
         for(int j = 0; j <n; j++) {
             a[i][j] = i * j +1;
-            std::count<<a[i][j]<<" ";
+            std::cout<<a[i][j]<<" ";
         }
+        std::cout<<std::endl;
     }
 }
 
@@ -20,6 +22,7 @@ void generate_vector(const int n, std::vector<int>& v) {
 }
 
 void compute_product(const int n, const std::vector<int>& v, const std::vector<std::vector<int>>& a, std::vector<int>& product) {
+    std::cout<<"Compute product:"<<std::endl;
     for(int i=0; i<n; i++) {
         for(int j=0;j<n;j++) {
             product[i] += a[i][j] * v[j];
@@ -36,12 +39,11 @@ int main(int argc, char **argv) {
     int count, myrank;
     int N = 5;
     std::vector matrix(N, std::vector<int>(N));
-    std::vector<int> vector(N), product(N, 0);
+    std::vector<int> vector(N), product(N);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_size(MPI_COMM_WORLD, &count);
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
-
 
     if (myrank == 0) {
         generate_matrix(N, matrix);
